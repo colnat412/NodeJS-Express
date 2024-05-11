@@ -36,31 +36,28 @@
     </div> -->
     <div class="table">
       <h2>List users</h2>
+      <%= JSON.stringify(listUsers) %>
       <table id="customers">
         <tr>
           <th>id</th>
           <th>Email</th>
           <th>Name</th>
           <th>City</th>
+          <th>Action</th>
         </tr>
+
+        <% listUsers.forEach(function(user) { %>
         <tr>
-          <td>Magazzini Alimentari Riuniti</td>
-          <td>Giovanni Rovelli</td>
-          <td>Italy</td>
-          <td>Italy</td>
+          <td><%= user.id %></td>
+          <td><%= user.email %></td>
+          <td><%= user.name %></td>
+          <td><%= user.city %></td>
+          <td>
+            <button class="edit">Edit</button>
+            <button class="delete">Delete</button>
+          </td>
         </tr>
-        <tr>
-          <td>North/South</td>
-          <td>Simon Crowther</td>
-          <td>UK</td>
-          <td>UK</td>
-        </tr>
-        <tr>
-          <td>Paris spécialités</td>
-          <td>Marie Bertrand</td>
-          <td>France</td>
-          <td>France</td>
-        </tr>
+        <% }); %>
       </table>
     </div>
   </body>

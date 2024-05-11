@@ -1,7 +1,9 @@
 const connection = require("../config/connect");
+const { getAllUsers } = require("../services/CRUDService");
 
-const getHomepage = (req, res) => {
-  return res.render("home");
+const getHomepage = async (req, res) => {
+  let results = await getAllUsers();
+  res.render("home", { listUsers: results });
 };
 
 const getEjsPage = (req, res) => {
