@@ -3,6 +3,7 @@ const {
   getAllUsers,
   getUserById,
   updateUserById,
+  deleteUserById,
 } = require("../services/CRUDService");
 
 const getHomepage = async (req, res) => {
@@ -15,40 +16,22 @@ const getEjsPage = (req, res) => {
 };
 
 const createNewUser = async (req, res) => {
-  // var email = req.body.email;
-  // var name = req.body.name;
-  // var city = req.body.city;
   var { email, name, city } = req.body;
-  // connection.query(
-  //   `INSERT INTO Users(email, name, city)
-  //     VALUES (?,?,?)`,
-  //   [email, name, city],
-  //   (err, results) => {
-  //     try {
-  //       res.send("Created successfully!");
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   }
-  // );
   var [results, fields] = await connection.query(
     "INSERT INTO Users(email, name, city) VALUES (?,?,?)",
     [email, name, city]
   );
   res.send("Created Successfully");
   res.redirect("/");
-
-  // connection.query(
-  //   `select *from Users u`,
-  //   (err,results,fields){
-  //     console.log(">>>results:", results);
-  //   }
-  // )
-  // const [results, fields] = await connection.query("select *from Users u");
-  // console.log(">>> results: ", results);
 };
+
 const getCreatePage = (req, res) => {
   res.render("create");
+};
+
+const getEditPage = async (req, res) => {
+  let user = await getUserById(req.params.id);
+  res.render("edit", { user: user });
 };
 
 const updateUser = async (req, res) => {
@@ -57,9 +40,14 @@ const updateUser = async (req, res) => {
   res.redirect("/");
 };
 
-const getEditPage = async (req, res) => {
+const deleteUser = async (req, res) => {
   let user = await getUserById(req.params.id);
-  res.render("edit", { user: user });
+  res.render("delete", { user: user });
+};
+
+const handleDeleteUser = async (req, res) => {
+  await deleteUserById(req.body.id);
+  res.redirect("/");
 };
 
 module.exports = {
@@ -69,4 +57,6 @@ module.exports = {
   getCreatePage,
   getEditPage,
   updateUser,
+  deleteUser,
+  handleDeleteUser,
 };
