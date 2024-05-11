@@ -1,5 +1,9 @@
 const connection = require("../config/connect");
-const { getAllUsers } = require("../services/CRUDService");
+const {
+  getAllUsers,
+  getUserById,
+  updateUserById,
+} = require("../services/CRUDService");
 
 const getHomepage = async (req, res) => {
   let results = await getAllUsers();
@@ -31,8 +35,8 @@ const createNewUser = async (req, res) => {
     "INSERT INTO Users(email, name, city) VALUES (?,?,?)",
     [email, name, city]
   );
-  console.log(">>> results: ", results);
-  res.send("Created successfully!");
+  res.send("Created Successfully");
+  res.redirect("/");
 
   // connection.query(
   //   `select *from Users u`,
@@ -47,12 +51,14 @@ const getCreatePage = (req, res) => {
   res.render("create");
 };
 
+const updateUser = async (req, res) => {
+  var { email, name, city, id } = req.body;
+  await updateUserById(email, name, city, id);
+  res.redirect("/");
+};
+
 const getEditPage = async (req, res) => {
-  let [results, fields] = await connection.query(
-    "select *from Users where id = ?",
-    [req.params.id]
-  );
-  let user = results && results.length > 0 ? results[0] : {};
+  let user = await getUserById(req.params.id);
   res.render("edit", { user: user });
 };
 
@@ -62,4 +68,5 @@ module.exports = {
   createNewUser,
   getCreatePage,
   getEditPage,
+  updateUser,
 };

@@ -10,12 +10,16 @@
     <%= JSON.stringify(user)%>
     <ul>
       <li><a href="/">HOME</a></li>
-      <li><a class="" href="/create">CREATE</a></li>
+      <li><a class="" href="/update">CREATE</a></li>
     </ul>
     <div class="form-add">
-      <form action="/create-user" method="post">
+      <form action="/update" method="post">
         <fieldset>
           <legend>Update user</legend>
+          <div class="input-group d-none">
+            <label for="">Id: </label>
+            <input value="<%=user.id%>" type="text" name="id" />
+          </div>
           <div class="input-group">
             <label for="">Email: </label>
             <input value="<%=user.email%>" type="text" name="email" />
