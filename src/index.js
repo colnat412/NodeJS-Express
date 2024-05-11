@@ -11,6 +11,9 @@ const app = express();
 // Config
 configViewEngine(app);
 
+app.use(express.json());
+app.use(express.urlencoded());
+
 // ROUTE
 app.use("/", webRoutes);
 
