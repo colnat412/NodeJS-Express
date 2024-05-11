@@ -47,9 +47,19 @@ const getCreatePage = (req, res) => {
   res.render("create");
 };
 
+const getEditPage = async (req, res) => {
+  let [results, fields] = await connection.query(
+    "select *from Users where id = ?",
+    [req.params.id]
+  );
+  let user = results && results.length > 0 ? results[0] : {};
+  res.render("edit", { user: user });
+};
+
 module.exports = {
   getHomepage,
   getEjsPage,
   createNewUser,
   getCreatePage,
+  getEditPage,
 };
