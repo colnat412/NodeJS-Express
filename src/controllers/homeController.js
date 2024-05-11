@@ -1,5 +1,7 @@
+const connection = require("../config/connect");
+
 const getHomepage = (req, res) => {
-  res.send("Home");
+  return res.render("home");
 };
 
 const getEjsPage = (req, res) => {
